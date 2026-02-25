@@ -1,6 +1,6 @@
 <h1>ExpNo 5 : Implement Minimax Search Algorithm for a Simple TIC-TAC-TOE game</h1> 
-<h3>Name:           </h3>
-<h3>Register Number/Staff Id:          </h3>
+<h3>Name: ARAVIND L. S.          </h3>
+<h3>Register Number: 212224060022         </h3>
 <H3>Aim:</H3>
 <p>
     Implement Minimax Search Algorithm for a Simple TIC-TAC-TOE game
@@ -112,5 +112,124 @@ end
 ![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/a2acb6a1-ed8e-42e5-8968-fe805e4b0255)
 
 <hr>
+<h2>Program:</h2>
+
+```
+import math
+
+board = [' ' for _ in range(9)]
+
+def print_board():
+    print()
+    print(board[0] + " | " + board[1] + " | " + board[2])
+    print("--+---+--")
+    print(board[3] + " | " + board[4] + " | " + board[5])
+    print("--+---+--")
+    print(board[6] + " | " + board[7] + " | " + board[8])
+    print()
+
+def check_winner(player):
+    win_positions = [
+        [0,1,2], [3,4,5], [6,7,8],  
+        [0,3,6], [1,4,7], [2,5,8],  
+        [0,4,8], [2,4,6]            
+    ]
+    
+    for pos in win_positions:
+        if board[pos[0]] == board[pos[1]] == board[pos[2]] == player:
+            return True
+    return False
+
+def is_draw():
+    return ' ' not in board
+
+def minimax(is_maximizing):
+    
+    if check_winner('X'):
+        return 10
+    if check_winner('O'):
+        return -10
+    if is_draw():
+        return 0
+
+    if is_maximizing:
+        best_score = -math.inf
+        for i in range(9):
+            if board[i] == ' ':
+                board[i] = 'X'
+                score = minimax(False)
+                board[i] = ' '
+                best_score = max(score, best_score)
+        return best_score
+    else:
+        best_score = math.inf
+        for i in range(9):
+            if board[i] == ' ':
+                board[i] = 'O'
+                score = minimax(True)
+                board[i] = ' '
+                best_score = min(score, best_score)
+        return best_score
+
+def best_move():
+    best_score = -math.inf
+    move = -1
+    
+    for i in range(9):
+        if board[i] == ' ':
+            board[i] = 'X'
+            score = minimax(False)
+            board[i] = ' '
+            
+            if score > best_score:
+                best_score = score
+                move = i
+    
+    return move
+
+def play_game():
+    print("TIC TAC TOE - Minimax AI")
+    print("You are O, AI is X")
+    
+    print_board()
+    
+    while True:
+        human_move = int(input("Enter position (0-8): "))
+        if board[human_move] == ' ':
+            board[human_move] = 'O'
+        else:
+            print("Invalid move! Try again.")
+            continue
+        
+        print_board()
+        
+        if check_winner('O'):
+            print("You Win!")
+            break
+        if is_draw():
+            print("Draw!")
+            break
+        
+        ai_move = best_move()
+        board[ai_move] = 'X'
+        print("AI chooses position:", ai_move)
+        
+        print_board()
+        
+        if check_winner('X'):
+            print("AI Wins!")
+            break
+        if is_draw():
+            print("Draw!")
+            break
+
+play_game()
+```
+<h2>Output:</h2>
+<img width="868" height="889" alt="image" src="https://github.com/user-attachments/assets/cb19636b-ad39-431f-9fbc-899351658f58" />
+<img width="868" height="889" alt="image" src="https://github.com/user-attachments/assets/33768c5c-8108-4fca-a92b-f3006c792d99" />
+<img width="871" height="888" alt="image" src="https://github.com/user-attachments/assets/3e89003b-70af-410c-afc7-fcb734490a3e" />
+
+
 <h2>Result:</h2>
 <p>Thus,Implementation of  Minimax Search Algorithm for a Simple TIC-TAC-TOE game wasa done successfully.</p>
